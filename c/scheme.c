@@ -1,5 +1,5 @@
 /* scheme.c
- * Copyright 1984-2016 Cisco Systems, Inc.
+ * Copyright 1984-2017 Cisco Systems, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -320,7 +320,7 @@ static ptr boot_call(tc, p, n) ptr tc; ptr p; INT n; {
     CP(tc) = Svoid; /* don't have calling code object */
 
     AC0(tc) = (ptr)(uptr)n;
-    S_call_help(tc, 0);
+    S_call_help(tc, 0, 0);
     check_ap(tc);
 
     CP(tc) = Svoid; /* leave clean so direct Scall won't choke */

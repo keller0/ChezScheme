@@ -1,6 +1,6 @@
 "pdhtml.ss"
 ;;; pdhtml.ss
-;;; Copyright 1984-2016 Cisco Systems, Inc.
+;;; Copyright 1984-2017 Cisco Systems, Inc.
 ;;;
 ;;; Licensed under the Apache License, Version 2.0 (the "License");
 ;;; you may not use this file except in compliance with the License.
@@ -204,7 +204,7 @@
             (let ([entry* (sort (lambda (x y)
                                   (or (> (entrydata-bfp x) (entrydata-bfp y))
                                       (and (= (entrydata-bfp x) (entrydata-bfp y))
-                                           (> (entrydata-efp x) (entrydata-efp y)))))
+                                           (< (entrydata-efp x) (entrydata-efp y)))))
                                 (filedata-entry* fdata))])
               #;(assert (not (null? entry*)))
               (let loop ([entry (car entry*)] [entry* (cdr entry*)] [new-entry* '()])

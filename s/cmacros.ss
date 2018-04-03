@@ -1,4 +1,4 @@
-;;; Copyright 1984-2016 Cisco Systems, Inc.
+;;; Copyright 1984-2017 Cisco Systems, Inc.
 ;;; 
 ;;; Licensed under the Apache License, Version 2.0 (the "License");
 ;;; you may not use this file except in compliance with the License.
@@ -328,7 +328,7 @@
                  [(_ foo e1 e2) e1] ...
                  [(_ bar e1 e2) e2]))))])))
 
-(define-constant scheme-version #x00090401)
+(define-constant scheme-version #x00090501)
 
 (define-syntax define-machine-types
   (lambda (x)
@@ -440,7 +440,7 @@
 (define-constant fasl-type-small-integer 25)
 (define-constant fasl-type-base-rtd 26)
 (define-constant fasl-type-fxvector 27)
-; 28
+(define-constant fasl-type-ephemeron 28)
 (define-constant fasl-type-bytevector 29)
 (define-constant fasl-type-weak-pair 30)
 (define-constant fasl-type-eq-hashtable 31)
@@ -640,15 +640,16 @@
       (symbol "symbol" #\x 2)            ;
       (port "port" #\q 3)                ;
       (weakpair "weakpr" #\w 4)          ;
-      (pure "pure" #\p 5)                ; swept immutable objects allocated here (all ptrs)
-      (continuation "cont" #\k 6)        ;
-      (code "code" #\c 7)                ;
-      (pure-typed-object "p-tobj" #\r 8) ;
-      (impure-record "ip-rec" #\s 9))    ;
+      (ephemeron "emph" #\e 5)           ;
+      (pure "pure" #\p 6)                ; swept immutable objects allocated here (all ptrs)
+      (continuation "cont" #\k 7)        ;
+      (code "code" #\c 8)                ;
+      (pure-typed-object "p-tobj" #\r 9) ;
+      (impure-record "ip-rec" #\s 10))   ;
     (unswept
-      (data "data" #\d 10)))             ; unswept objects allocated here
+      (data "data" #\d 11)))             ; unswept objects allocated here
   (unreal
-    (empty "empty" #\e 11)))             ; available segments
+    (empty "empty" #\e 12)))             ; available segments
 
 ;;; enumeration of types for which gc tracks object counts
 ;;; also update gc.c
@@ -678,7 +679,8 @@
 (define-constant countof-locked 22)
 (define-constant countof-guardian 23)
 (define-constant countof-oblist 24)
-(define-constant countof-types 25)
+(define-constant countof-ephemeron 25)
+(define-constant countof-types 26)
 
 ;;; type-fixnum is assumed to be all zeros by at least by vector, fxvector,
 ;;; and bytevector index checks
@@ -1182,6 +1184,12 @@
   ([iptr type]
    [ptr ref]))
 
+(define-primitive-structure-disps ephemeron type-pair
+  ([ptr car]
+   [ptr cdr]
+   [ptr next] ; `next` is needed by the GC to keep track of pending ephemerons
+   [ptr trigger-next])) ; `trigger-next` is similar, but for segment-specific lists
+
 (define-primitive-structure-disps tlc type-typed-object
   ([iptr type]
    [ptr keyval]
@@ -1343,6 +1351,7 @@
    [ptr current-error]
    [ptr block-counter]
    [ptr sfd]
+   [ptr current-mso]
    [ptr target-machine]
    [ptr fxlength-bv]
    [ptr fxfirst-bit-set-bv]
@@ -1357,6 +1366,8 @@
    [ptr optimize-level]
    [ptr subset-mode]
    [ptr suppress-primitive-inlining]
+   [ptr default-record-equal-procedure]
+   [ptr default-record-hash-procedure]
    [U64 instr-counter]
    [U64 alloc-counter]
    [ptr parameters]))
@@ -1837,6 +1848,10 @@
 
 (define-constant hashtable-default-size 8)
 
+(define-constant eq-hashtable-subtype-normal 0)
+(define-constant eq-hashtable-subtype-weak 1)
+(define-constant eq-hashtable-subtype-ephemeron 2)
+
 ; keep in sync with make-date
 (define-constant dtvec-nsec 0)
 (define-constant dtvec-sec 1)
@@ -1849,7 +1864,8 @@
 (define-constant dtvec-yday 8)
 (define-constant dtvec-isdst 9)
 (define-constant dtvec-tzoff 10)
-(define-constant dtvec-size 11)
+(define-constant dtvec-tzname 11)
+(define-constant dtvec-size 12)
 
 (define-constant time-process 0)
 (define-constant time-thread 1)
@@ -2617,16 +2633,7 @@
      scan-remembered-set
      instantiate-code-object
      Sreturn
-     Scall->ptr
-     Scall->fptr
-     Scall->bytevector
-     Scall->fixnum
-     Scall->int32
-     Scall->uns32
-     Scall->double
-     Scall->single
-     Scall->int64
-     Scall->uns64
-     Scall->void
+     Scall-one-result
+     Scall-any-results
   ))
 )

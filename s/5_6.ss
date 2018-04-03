@@ -1,6 +1,6 @@
 "5_6.ss"
 ;;; 5_6.ss
-;;; Copyright 1984-2016 Cisco Systems, Inc.
+;;; Copyright 1984-2017 Cisco Systems, Inc.
 ;;; 
 ;;; Licensed under the Apache License, Version 2.0 (the "License");
 ;;; you may not use this file except in compliance with the License.
@@ -85,7 +85,7 @@
     (unless (mutable-vector? v) ($oops who "~s is not a mutable vector" v))
     (let ([n (vector-length v)])
       (do ([i 0 (fx+ i 1)])
-          ((fx= i n) v)
+          ((fx= i n))
         (vector-set! v i obj)))))
 
 (set! fxvector->list

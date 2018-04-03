@@ -1,5 +1,5 @@
 /* globals.h
- * Copyright 1984-2016 Cisco Systems, Inc.
+ * Copyright 1984-2017 Cisco Systems, Inc.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  */
 
 /* globals that do NOT need to be preserved in a saved heap.
- * they must be initalized each time the system is brought up. */
+ * they must be initialized each time the system is brought up. */
 
 /* gc.c */
 EXTERN IBOOL S_checkheap;

@@ -1,5 +1,5 @@
 /* prim5.c
- * Copyright 1984-2016 Cisco Systems, Inc.
+ * Copyright 1984-2017 Cisco Systems, Inc.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,6 +34,8 @@ static ptr s_trunc_rem PROTO((ptr x, ptr y));
 static ptr s_fltofx PROTO((ptr x));
 static ptr s_weak_cons PROTO((ptr car, ptr cdr));
 static ptr s_weak_pairp PROTO((ptr p));
+static ptr s_ephemeron_cons PROTO((ptr car, ptr cdr));
+static ptr s_ephemeron_pairp PROTO((ptr p));
 static ptr s_oblist PROTO((void));
 static ptr s_bigoddp PROTO((ptr n));
 static ptr s_float PROTO((ptr x));
@@ -174,6 +176,20 @@ static ptr s_weak_cons(car, cdr) ptr car, cdr; {
 static ptr s_weak_pairp(p) ptr p; {
   seginfo *si;
   return Spairp(p) && (si = MaybeSegInfo(ptr_get_segment(p))) != NULL && (si->space & ~space_locked) == space_weakpair ? Strue : Sfalse;
+}
+
+static ptr s_ephemeron_cons(car, cdr) ptr car, cdr; {
+  ptr p;
+
+  tc_mutex_acquire()
+  p = S_cons_in(space_ephemeron, 0, car, cdr);
+  tc_mutex_release()
+  return p;
+}
+
+static ptr s_ephemeron_pairp(p) ptr p; {
+  seginfo *si;
+  return Spairp(p) && (si = MaybeSegInfo(ptr_get_segment(p))) != NULL && (si->space & ~space_locked) == space_ephemeron ? Strue : Sfalse;
 }
 
 static ptr s_oblist() {
@@ -1447,12 +1463,14 @@ void S_prim5_init() {
 #ifdef PTHREADS
     Sforeign_symbol("(cs)fork_thread", (void *)S_fork_thread);
     Sforeign_symbol("(cs)make_mutex", (void *)S_make_mutex);
+    Sforeign_symbol("(cs)mutex_free", (void *)S_mutex_free);
     Sforeign_symbol("(cs)backdoor_thread", (void *)s_backdoor_thread);
     Sforeign_symbol("(cs)threads", (void *)s_threads);
     Sforeign_symbol("(cs)mutex_acquire", (void *)s_mutex_acquire);
     Sforeign_symbol("(cs)mutex_release", (void *)S_mutex_release);
     Sforeign_symbol("(cs)mutex_acquire_noblock", (void *)s_mutex_acquire_noblock);
     Sforeign_symbol("(cs)make_condition", (void *)S_make_condition);
+    Sforeign_symbol("(cs)condition_free", (void *)S_condition_free);
     Sforeign_symbol("(cs)condition_broadcast", (void *)s_condition_broadcast);
     Sforeign_symbol("(cs)condition_signal", (void *)s_condition_signal);
     Sforeign_symbol("(cs)condition_wait", (void *)S_condition_wait);
@@ -1463,6 +1481,8 @@ void S_prim5_init() {
     Sforeign_symbol("(cs)s_fltofx", (void *)s_fltofx);
     Sforeign_symbol("(cs)s_weak_cons", (void *)s_weak_cons);
     Sforeign_symbol("(cs)s_weak_pairp", (void *)s_weak_pairp);
+    Sforeign_symbol("(cs)s_ephemeron_cons", (void *)s_ephemeron_cons);
+    Sforeign_symbol("(cs)s_ephemeron_pairp", (void *)s_ephemeron_pairp);
     Sforeign_symbol("(cs)continuation_depth", (void *)S_continuation_depth);
     Sforeign_symbol("(cs)single_continuation", (void *)S_single_continuation);
     Sforeign_symbol("(cs)c_exit", (void *)c_exit);
@@ -1533,6 +1553,10 @@ void S_prim5_init() {
     Sforeign_symbol("(cs)set_fd_non_blocking", (void*)S_set_fd_non_blocking);
     Sforeign_symbol("(cs)get_fd_length", (void*)S_get_fd_length);
     Sforeign_symbol("(cs)set_fd_length", (void*)S_set_fd_length);
+
+    Sforeign_symbol("(cs)bytevector_compress_size", (void*)S_bytevector_compress_size);
+    Sforeign_symbol("(cs)bytevector_compress", (void*)S_bytevector_compress);
+    Sforeign_symbol("(cs)bytevector_uncompress", (void*)S_bytevector_uncompress);
 
     Sforeign_symbol("(cs)logand", (void *)S_logand);
     Sforeign_symbol("(cs)logbitp", (void *)S_logbitp);

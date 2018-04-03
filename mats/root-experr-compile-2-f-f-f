@@ -242,14 +242,36 @@ primvars.mo:Expected error in mat trace-output-port: "trace-output-port: #<input
 4.mo:Expected error in mat apply: "apply: (3 4 5 6 7 8 ...) is not a proper list".
 4.mo:Expected error in mat apply: "apply: (1 2 1 2 1 2 ...) is circular".
 4.mo:Expected error in mat begin: "invalid syntax (begin)".
+4.mo:Expected error in mat cond: "invalid syntax (cond)".
 4.mo:Expected error in mat cond: "invalid syntax x".
 4.mo:Expected error in mat exclusive-cond: "invalid exclusive-cond clause (a . b)".
+4.mo:Expected error in mat exclusive-cond: "invalid syntax (exclusive-cond)".
 4.mo:Expected error in mat exclusive-cond: "invalid syntax x".
 4.mo:Expected error in mat case: "invalid case clause (a . b)".
-4.mo:Expected error in mat r6rs:case: "invalid syntax (r6rs:case (quote a) (a (quote yes)) (b (quote no)))".
-4.mo:Expected error in mat r6rs:case: "invalid syntax (case (quote a) (a (quote yes)) (b (quote no)))".
+4.mo:Expected error in mat case: "invalid syntax (if)".
+4.mo:Expected error in mat case: "misplaced aux keyword =>".
+4.mo:Expected error in mat case: "misplaced aux keyword =>".
+4.mo:Expected error in mat case: "misplaced aux keyword =>".
+4.mo:Expected error in mat case: "misplaced aux keyword =>".
+4.mo:Expected error in mat case: "misplaced aux keyword =>".
+4.mo:Expected error in mat case: "misplaced aux keyword =>".
+4.mo:Expected error in mat case: "invalid syntax (case)".
+4.mo:Expected error in mat r6rs:case: "invalid case clause (a (quote yes))".
+4.mo:Expected error in mat r6rs:case: "invalid case clause (a (quote yes))".
+4.mo:Expected error in mat r6rs:case: "invalid syntax (if)".
+4.mo:Expected error in mat r6rs:case: "misplaced aux keyword =>".
+4.mo:Expected error in mat r6rs:case: "misplaced aux keyword =>".
+4.mo:Expected error in mat r6rs:case: "misplaced aux keyword =>".
+4.mo:Expected error in mat r6rs:case: "misplaced aux keyword =>".
+4.mo:Expected error in mat r6rs:case: "misplaced aux keyword =>".
+4.mo:Expected error in mat r6rs:case: "misplaced aux keyword =>".
+4.mo:Expected error in mat r6rs:case: "invalid syntax (case)".
 4.mo:Expected error in mat named-let: "incorrect argument count in call ((letrec ((...)) x) 3 4)".
 4.mo:Expected error in mat map: "map: 3 is not a procedure".
+4.mo:Expected error in mat map: "map: 3 is not a procedure".
+4.mo:Expected error in mat map: "map: 3 is not a procedure".
+4.mo:Expected error in mat map: "map: 3 is not a procedure".
+4.mo:Expected error in mat map: "map: 7 is not a procedure".
 4.mo:Expected error in mat map: "map: a is not a proper list".
 4.mo:Expected error in mat map: "map: (a . b) is not a proper list".
 4.mo:Expected error in mat map: "map: (a a a a a a ...) is circular".
@@ -270,6 +292,8 @@ primvars.mo:Expected error in mat trace-output-port: "trace-output-port: #<input
 4.mo:Expected error in mat map: "map: (a a a a a a ...) is circular".
 4.mo:Expected error in mat map: "map: (a a a a a a ...) is circular".
 4.mo:Expected error in mat map: "map: (a a a a a a ...) is circular".
+4.mo:Expected error in mat fold-left: "fold-left: 3 is not a procedure".
+4.mo:Expected error in mat fold-left: "fold-left: 3 is not a procedure".
 4.mo:Expected error in mat fold-left: "fold-left: 3 is not a procedure".
 4.mo:Expected error in mat fold-left: "fold-left: a is not a proper list".
 4.mo:Expected error in mat fold-left: "fold-left: (a . b) is not a proper list".
@@ -299,6 +323,8 @@ primvars.mo:Expected error in mat trace-output-port: "trace-output-port: #<input
 4.mo:Expected error in mat fold-left: "fold-left: input list was altered during operation".
 4.mo:Expected error in mat fold-left: "fold-left: input list was altered during operation".
 4.mo:Expected error in mat fold-right: "fold-right: 3 is not a procedure".
+4.mo:Expected error in mat fold-right: "fold-right: 3 is not a procedure".
+4.mo:Expected error in mat fold-right: "fold-right: 3 is not a procedure".
 4.mo:Expected error in mat fold-right: "fold-right: a is not a proper list".
 4.mo:Expected error in mat fold-right: "fold-right: (a . b) is not a proper list".
 4.mo:Expected error in mat fold-right: "fold-right: (a a a a a a ...) is circular".
@@ -320,6 +346,10 @@ primvars.mo:Expected error in mat trace-output-port: "trace-output-port: #<input
 4.mo:Expected error in mat fold-right: "fold-right: (a a a a a a ...) is circular".
 4.mo:Expected error in mat fold-right: "fold-right: (a a a a a a ...) is circular".
 4.mo:Expected error in mat for-each: "for-each: 3 is not a procedure".
+4.mo:Expected error in mat for-each: "for-each: 3 is not a procedure".
+4.mo:Expected error in mat for-each: "for-each: 3 is not a procedure".
+4.mo:Expected error in mat for-each: "for-each: 3 is not a procedure".
+4.mo:Expected error in mat for-each: "for-each: 7 is not a procedure".
 4.mo:Expected error in mat for-each: "for-each: a is not a proper list".
 4.mo:Expected error in mat for-each: "for-each: (a . b) is not a proper list".
 4.mo:Expected error in mat for-each: "for-each: (a a a a a a ...) is circular".
@@ -352,6 +382,8 @@ primvars.mo:Expected error in mat trace-output-port: "trace-output-port: #<input
 4.mo:Expected error in mat for-each: "for-each: input list was altered during operation".
 4.mo:Expected error in mat for-each: "for-each: input list was altered during operation".
 4.mo:Expected error in mat for-each: "for-each: input list was altered during operation".
+4.mo:Expected error in mat ormap: "ormap: 3 is not a procedure".
+4.mo:Expected error in mat ormap: "ormap: 3 is not a procedure".
 4.mo:Expected error in mat ormap: "ormap: 3 is not a procedure".
 4.mo:Expected error in mat ormap: "ormap: a is not a proper list".
 4.mo:Expected error in mat ormap: "ormap: (a . b) is not a proper list".
@@ -386,6 +418,8 @@ primvars.mo:Expected error in mat trace-output-port: "trace-output-port: #<input
 4.mo:Expected error in mat ormap: "ormap: input list was altered during operation".
 4.mo:Expected error in mat ormap: "ormap: input list was altered during operation".
 4.mo:Expected error in mat andmap: "andmap: 3 is not a procedure".
+4.mo:Expected error in mat andmap: "andmap: 3 is not a procedure".
+4.mo:Expected error in mat andmap: "andmap: 3 is not a procedure".
 4.mo:Expected error in mat andmap: "andmap: a is not a proper list".
 4.mo:Expected error in mat andmap: "andmap: (a . b) is not a proper list".
 4.mo:Expected error in mat andmap: "andmap: (a a a a a a ...) is circular".
@@ -419,6 +453,8 @@ primvars.mo:Expected error in mat trace-output-port: "trace-output-port: #<input
 4.mo:Expected error in mat andmap: "andmap: input list was altered during operation".
 4.mo:Expected error in mat andmap: "andmap: input list was altered during operation".
 4.mo:Expected error in mat exists: "exists: 3 is not a procedure".
+4.mo:Expected error in mat exists: "exists: 3 is not a procedure".
+4.mo:Expected error in mat exists: "exists: 3 is not a procedure".
 4.mo:Expected error in mat exists: "exists: a is not a proper list".
 4.mo:Expected error in mat exists: "exists: (a . b) is not a proper list".
 4.mo:Expected error in mat exists: "exists: (a a a a a a ...) is circular".
@@ -451,6 +487,8 @@ primvars.mo:Expected error in mat trace-output-port: "trace-output-port: #<input
 4.mo:Expected error in mat exists: "exists: input list was altered during operation".
 4.mo:Expected error in mat exists: "exists: input list was altered during operation".
 4.mo:Expected error in mat exists: "exists: input list was altered during operation".
+4.mo:Expected error in mat for-all: "for-all: 3 is not a procedure".
+4.mo:Expected error in mat for-all: "for-all: 3 is not a procedure".
 4.mo:Expected error in mat for-all: "for-all: 3 is not a procedure".
 4.mo:Expected error in mat for-all: "for-all: a is not a proper list".
 4.mo:Expected error in mat for-all: "for-all: (a . b) is not a proper list".
@@ -1037,12 +1075,16 @@ primvars.mo:Expected error in mat trace-output-port: "trace-output-port: #<input
 5_3.mo:Expected error in mat even?: "even?: 3.2 is not an integer".
 5_3.mo:Expected error in mat even?: "even?: 3.0+1.0i is not an integer".
 5_3.mo:Expected error in mat even?: "even?: 1+1i is not an integer".
+5_3.mo:Expected error in mat even?: "even?: +inf.0 is not an integer".
+5_3.mo:Expected error in mat even?: "even?: +nan.0 is not an integer".
 5_3.mo:Expected error in mat odd?: "incorrect argument count in call (odd?)".
 5_3.mo:Expected error in mat odd?: "incorrect argument count in call (odd? 0 1)".
 5_3.mo:Expected error in mat odd?: "odd?: a is not an integer".
 5_3.mo:Expected error in mat odd?: "odd?: 3.2 is not an integer".
 5_3.mo:Expected error in mat odd?: "odd?: 3.0+1.0i is not an integer".
 5_3.mo:Expected error in mat odd?: "odd?: 3+1i is not an integer".
+5_3.mo:Expected error in mat odd?: "odd?: +inf.0 is not an integer".
+5_3.mo:Expected error in mat odd?: "odd?: +nan.0 is not an integer".
 5_3.mo:Expected error in mat \x31;+: "incorrect argument count in call (\x31;+)".
 5_3.mo:Expected error in mat \x31;+: "incorrect argument count in call (\x31;+ 0 1)".
 5_3.mo:Expected error in mat \x31;+: "1+: a is not a number".
@@ -3573,6 +3615,16 @@ bytevector.mo:Expected error in mat bytevector->immutable-bytevector: "bytevecto
 bytevector.mo:Expected error in mat bytevector->immutable-bytevector: "bytevector-fill!: #vu8(42 42 42 42 42 42 ...) is not a mutable bytevector".
 bytevector.mo:Expected error in mat bytevector->immutable-bytevector: "bytevector-copy!: #vu8(42 42 42 42 42 42 ...) is not a mutable bytevector".
 bytevector.mo:Expected error in mat bytevector->immutable-bytevector: "bytevector-truncate!: #vu8(42 42 42 42 42 42 ...) is not a mutable bytevector".
+bytevector.mo:Expected error in mat bytevector-compress: "bytevector-compress: 7 is not a bytevector".
+bytevector.mo:Expected error in mat bytevector-compress: "bytevector-compress: "hello" is not a bytevector".
+bytevector.mo:Expected error in mat bytevector-compress: "bytevector-uncompress: 7 is not a bytevector".
+bytevector.mo:Expected error in mat bytevector-compress: "bytevector-uncompress: "hello" is not a bytevector".
+bytevector.mo:Expected error in mat bytevector-compress: "bytevector-uncompress: invalid data in source bytevector #vu8()".
+bytevector.mo:Expected error in mat bytevector-compress: "bytevector-uncompress: invalid data in source bytevector #vu8(0 0 0 0 0 0 ...)".
+bytevector.mo:Expected error in mat bytevector-compress: "bytevector-uncompress: uncompressed #vu8(0 0 0 0 0 0 ...) is larger than expected size".
+bytevector.mo:Expected error in mat bytevector-compress: "bytevector-uncompress: uncompressed size 5 for #vu8(0 0 0 0 0 0 ...) is smaller than expected size 6".
+bytevector.mo:Expected error in mat bytevector-compress: "bytevector-uncompress: invalid data in source bytevector #vu8(0 0 0 0 0 0 ...)".
+bytevector.mo:Expected error in mat bytevector-compress: "bytevector-uncompress: bytevector #vu8(255 255 255 255 255 255 ...) claims invalid uncompressed size <int>".
 misc.mo:Expected error in mat compiler1: "variable i-am-not-bound is not bound".
 misc.mo:Expected error in mat compiler1: "attempt to apply non-procedure oops".
 misc.mo:Expected error in mat compiler1: "incorrect argument count in call (g (list))".
@@ -7496,6 +7548,9 @@ hash.mo:Expected error in mat hashtable-arguments: "hashtable-equivalence-functi
 hash.mo:Expected error in mat hashtable-arguments: "incorrect argument count in call (hashtable-weak?)".
 hash.mo:Expected error in mat hashtable-arguments: "incorrect argument count in call (hashtable-weak? $ht 3)".
 hash.mo:Expected error in mat hashtable-arguments: "hashtable-weak?: (hash . table) is not a hashtable".
+hash.mo:Expected error in mat hashtable-arguments: "incorrect argument count in call (hashtable-ephemeron?)".
+hash.mo:Expected error in mat hashtable-arguments: "incorrect argument count in call (hashtable-ephemeron? $ht 3)".
+hash.mo:Expected error in mat hashtable-arguments: "hashtable-ephemeron?: (hash . table) is not a hashtable".
 hash.mo:Expected error in mat hash-return-value: "hashtable-ref: invalid hash-function #<procedure> return value "oops" for any".
 hash.mo:Expected error in mat hash-return-value: "hashtable-ref: invalid hash-function #<procedure> return value 3.5 for any".
 hash.mo:Expected error in mat hash-return-value: "hashtable-ref: invalid hash-function #<procedure> return value 1+2i for any".
@@ -7518,6 +7573,10 @@ hash.mo:Expected error in mat eq-hashtable-arguments: "incorrect argument count 
 hash.mo:Expected error in mat eq-hashtable-arguments: "make-weak-eq-hashtable: invalid size argument -1".
 hash.mo:Expected error in mat eq-hashtable-arguments: "make-weak-eq-hashtable: invalid size argument #t".
 hash.mo:Expected error in mat eq-hashtable-arguments: "make-weak-eq-hashtable: invalid size argument #f".
+hash.mo:Expected error in mat eq-hashtable-arguments: "incorrect argument count in call (make-ephemeron-eq-hashtable 3 #t)".
+hash.mo:Expected error in mat eq-hashtable-arguments: "make-ephemeron-eq-hashtable: invalid size argument -1".
+hash.mo:Expected error in mat eq-hashtable-arguments: "make-ephemeron-eq-hashtable: invalid size argument #t".
+hash.mo:Expected error in mat eq-hashtable-arguments: "make-ephemeron-eq-hashtable: invalid size argument #f".
 hash.mo:Expected error in mat eq-hashtable-arguments: "incorrect argument count in call (eq-hashtable-ref)".
 hash.mo:Expected error in mat eq-hashtable-arguments: "incorrect argument count in call (eq-hashtable-ref $wht)".
 hash.mo:Expected error in mat eq-hashtable-arguments: "incorrect argument count in call (eq-hashtable-ref $wht (quote a))".
@@ -7553,6 +7612,9 @@ hash.mo:Expected error in mat eq-hashtable-arguments: "eq-hashtable-cell: (hash 
 hash.mo:Expected error in mat eq-hashtable-arguments: "incorrect argument count in call (eq-hashtable-weak?)".
 hash.mo:Expected error in mat eq-hashtable-arguments: "incorrect argument count in call (eq-hashtable-weak? $ht 3)".
 hash.mo:Expected error in mat eq-hashtable-arguments: "eq-hashtable-weak?: (hash . table) is not an eq hashtable".
+hash.mo:Expected error in mat eq-hashtable-arguments: "incorrect argument count in call (eq-hashtable-ephemeron?)".
+hash.mo:Expected error in mat eq-hashtable-arguments: "incorrect argument count in call (eq-hashtable-ephemeron? $ht 3)".
+hash.mo:Expected error in mat eq-hashtable-arguments: "eq-hashtable-ephemeron?: (hash . table) is not an eq hashtable".
 hash.mo:Expected error in mat symbol-hashtable-arguments: "incorrect argument count in call (symbol-hashtable-ref)".
 hash.mo:Expected error in mat symbol-hashtable-arguments: "incorrect argument count in call (symbol-hashtable-ref $symht)".
 hash.mo:Expected error in mat symbol-hashtable-arguments: "incorrect argument count in call (symbol-hashtable-ref $symht (quote a))".
@@ -7607,6 +7669,10 @@ hash.mo:Expected error in mat eqv-hashtable-arguments: "incorrect argument count
 hash.mo:Expected error in mat eqv-hashtable-arguments: "make-weak-eqv-hashtable: invalid size argument -1".
 hash.mo:Expected error in mat eqv-hashtable-arguments: "make-weak-eqv-hashtable: invalid size argument #t".
 hash.mo:Expected error in mat eqv-hashtable-arguments: "make-weak-eqv-hashtable: invalid size argument #f".
+hash.mo:Expected error in mat eqv-hashtable-arguments: "incorrect argument count in call (make-ephemeron-eqv-hashtable 3 #t)".
+hash.mo:Expected error in mat eqv-hashtable-arguments: "make-ephemeron-eqv-hashtable: invalid size argument -1".
+hash.mo:Expected error in mat eqv-hashtable-arguments: "make-ephemeron-eqv-hashtable: invalid size argument #t".
+hash.mo:Expected error in mat eqv-hashtable-arguments: "make-ephemeron-eqv-hashtable: invalid size argument #f".
 hash.mo:Expected error in mat generic-hashtable: "hashtable-clear!: #<hashtable> is not mutable".
 hash.mo:Expected error in mat generic-hashtable: "hashtable-delete!: #<hashtable> is not mutable".
 hash.mo:Expected error in mat generic-hashtable: "hashtable-update!: #<hashtable> is not mutable".
@@ -7625,19 +7691,20 @@ hash.mo:Expected error in mat hash-functions: "string-ci-hash: hello is not a st
 hash.mo:Expected error in mat fasl-other-hashtable: "fasl-write: invalid fasl object #<eqv hashtable>".
 hash.mo:Expected error in mat fasl-other-hashtable: "fasl-write: invalid fasl object #<hashtable>".
 enum.mo:Expected error in mat enumeration: "enum-set-intersection: #<enum-set> and #<enum-set> have different enumeration types".
-enum.mo:Expected error in mat enumeration: "enum-set-intersection: 1 isn't an enumeration".
+enum.mo:Expected error in mat enumeration: "enum-set-intersection: 1 is not an enumeration".
 enum.mo:Expected error in mat enumeration: "universe of foo does not include specified symbol d".
 enum.mo:Expected error in mat enumeration: "universe of foo does not include specified symbol d".
 enum.mo:Expected error in mat enumeration: "make-enumeration: 3 is not a list of symbols".
-enum.mo:Expected error in mat enumeration: "enum-set-universe: 3 isn't an enumeration".
-enum.mo:Expected error in mat enumeration: "enum-set-indexer: 3 isn't an enumeration".
-enum.mo:Expected error in mat enumeration: "enum-set->list: 3 isn't an enumeration".
-enum.mo:Expected error in mat enumeration: "enum-set-union: 3 isn't an enumeration".
-enum.mo:Expected error in mat enumeration: "enum-set-union: 4 isn't an enumeration".
+enum.mo:Expected error in mat enumeration: "enum-set-universe: 3 is not an enumeration".
+enum.mo:Expected error in mat enumeration: "enum-set-indexer: 3 is not an enumeration".
+enum.mo:Expected error in mat enumeration: "enum-set-indexer: 1 is not a symbol".
+enum.mo:Expected error in mat enumeration: "enum-set->list: 3 is not an enumeration".
+enum.mo:Expected error in mat enumeration: "enum-set-union: 3 is not an enumeration".
+enum.mo:Expected error in mat enumeration: "enum-set-union: 4 is not an enumeration".
 enum.mo:Expected error in mat enumeration: "enum-set-union: #<enum-set> and #<enum-set> have different enumeration types".
-enum.mo:Expected error in mat enumeration: "enum-set-complement: 3 isn't an enumeration".
-enum.mo:Expected error in mat enumeration: "enum-set-projection: 3 isn't an enumeration".
-enum.mo:Expected error in mat enumeration: "enum-set-projection: 4 isn't an enumeration".
+enum.mo:Expected error in mat enumeration: "enum-set-complement: 3 is not an enumeration".
+enum.mo:Expected error in mat enumeration: "enum-set-projection: 3 is not an enumeration".
+enum.mo:Expected error in mat enumeration: "enum-set-projection: 4 is not an enumeration".
 enum.mo:Expected error in mat enumeration: "invalid syntax (define-enumeration 3 () bar)".
 enum.mo:Expected error in mat enumeration: "invalid syntax (define-enumeration foo baz bar)".
 enum.mo:Expected error in mat enumeration: "invalid syntax (define-enumeration foo () 3)".
@@ -8350,12 +8417,20 @@ enum.mo:Expected error in mat enumeration: "make-record-type: cannot extend seal
 8.mo:Expected error in mat annotations: "make-source-object: ending file position 2 is less than beginning file position 3".
 8.mo:Expected error in mat annotations: "make-source-object: -7 is not an exact nonnegative integer".
 8.mo:Expected error in mat annotations: "make-source-object: -7 is not an exact nonnegative integer".
+8.mo:Expected error in mat annotations: "make-source-object: -7 is not an exact nonnegative integer".
+8.mo:Expected error in mat annotations: "make-source-object: one is not an exact positive integer".
+8.mo:Expected error in mat annotations: "make-source-object: one is not an exact positive integer".
+8.mo:Expected error in mat annotations: "make-source-object: 0 is not an exact positive integer".
+8.mo:Expected error in mat annotations: "make-source-object: 0 is not an exact positive integer".
+8.mo:Expected error in mat annotations: "make-source-object: ending file position 2 is less than beginning file position 3".
 8.mo:Expected error in mat annotations: "make-annotation: source is not a source object".
 8.mo:Expected error in mat annotations: "source-file-descriptor-path: #<source foo[2:3]> is not a source-file descriptor".
 8.mo:Expected error in mat annotations: "source-file-descriptor-checksum: #<annotation foo[2:3] (if I were a rich man)> is not a source-file descriptor".
 8.mo:Expected error in mat annotations: "source-object-sfd: #<sfd foo> is not a source object".
 8.mo:Expected error in mat annotations: "source-object-bfp: #<annotation foo[2:3] (if I were a rich man)> is not a source object".
 8.mo:Expected error in mat annotations: "source-object-efp: 3 is not a source object".
+8.mo:Expected error in mat annotations: "source-object-line: 3 is not a source object".
+8.mo:Expected error in mat annotations: "source-object-column: 3 is not a source object".
 8.mo:Expected error in mat annotations: "annotation-expression: 3 is not an annotation".
 8.mo:Expected error in mat annotations: "annotation-stripped: #<source foo[2:3]> is not an annotation".
 8.mo:Expected error in mat annotations: "annotation-source: #<sfd foo> is not an annotation".
@@ -8366,13 +8441,18 @@ enum.mo:Expected error in mat enumeration: "make-record-type: cannot extend seal
 8.mo:Expected error in mat annotations: "invalid fasl strip option fig".
 8.mo:Expected error in mat annotations: "invalid fasl strip option fig".
 8.mo:Expected error in mat annotations: "invalid syntax (if I were a rich man) at char 2 of foo".
+8.mo:Expected error in mat annotations: "invalid syntax (if I were a rich man) at line 2, char 1 of foo".
 8.mo:Expected error in mat annotations: "invalid syntax (if I were a rich man) at char 2 of foo".
+8.mo:Expected error in mat annotations: "invalid syntax (if I were a rich man) at line 2, char 1 of foo".
 8.mo:Expected error in mat annotations: "invalid syntax (if I were a rich man) at char 2 of foo".
+8.mo:Expected error in mat annotations: "invalid syntax (if I were a rich man) at line 2, char 1 of foo".
 8.mo:Expected error in mat annotations: "invalid syntax (if I were a rich man) at char 2 of foo".
+8.mo:Expected error in mat annotations: "invalid syntax (if I were a rich man) at line 2, char 1 of foo".
 8.mo:Expected error in mat annotations: "invalid syntax (if I were a rich man) at char 2 of foo".
 8.mo:Expected error in mat annotations: "invalid syntax (if I were a rich man)".
 8.mo:Expected error in mat annotations: "invalid syntax (if I were a rich man)".
 8.mo:Expected error in mat annotations: "incorrect argument count in call (f) at char 2 of foo".
+8.mo:Expected error in mat annotations: "incorrect argument count in call (f) at line 2, char 1 of foo".
 8.mo:Expected error in mat annotations: "incorrect argument count in call (f) at char 2 of foo".
 8.mo:Expected error in mat annotations: "incorrect argument count in call (f)".
 8.mo:Expected error in mat annotations: "incorrect argument count in call (f)".
@@ -8387,6 +8467,13 @@ enum.mo:Expected error in mat enumeration: "make-record-type: cannot extend seal
 8.mo:Expected error in mat annotations: "locate-source: "spam" is not a source-file descriptor".
 8.mo:Expected error in mat annotations: "locate-source: -1 is not an exact nonnegative integer".
 8.mo:Expected error in mat annotations: "locate-source: a is not an exact nonnegative integer".
+8.mo:Expected error in mat annotations: "locate-source-object-source: "spam" is not a source object".
+8.mo:Expected error in mat annotations: "current-locate-source-object-source: 7 is not a procedure".
+8.mo:Expected error in mat annotations: "current-locate-source-object-source: "string" is not a procedure".
+8.mo:Expected error in mat annotations: "locate-source-object-source: "spam" is not a source object".
+8.mo:Expected error in mat annotations: "invalid syntax (if I were a rich man) at line 200, char 17 of foo".
+8.mo:Expected error in mat annotations-via-recorded-lines: "current-make-source-object: 7 is not a procedure".
+8.mo:Expected error in mat annotations-via-recorded-lines: "current-make-source-object: "string" is not a procedure".
 8.mo:Expected error in mat include: "invalid syntax (include spam)".
 8.mo:Expected error in mat include: "invalid syntax (include spam)".
 8.mo:Expected error in mat extend-syntax: "extend-syntax: invalid keyword ... in keyword list (foo ...)".
@@ -8571,24 +8658,25 @@ fx.mo:Expected error in mat fxnot: "fxnot: "hello" is not a fixnum".
 fx.mo:Expected error in mat fxnot: "fxnot: <int> is not a fixnum".
 fx.mo:Expected error in mat fxnot: "fxnot: <-int> is not a fixnum".
 fx.mo:Expected error in mat fxsll: "fxsll: invalid shift count -1".
+fx.mo:Expected error in mat fxsll: "fxsll: invalid shift count <int>".
 fx.mo:Expected error in mat fxsll: "fxsll: fixnum overflow with arguments 1 and <int>".
-fx.mo:Expected error in mat fxsll: "fxsll: fixnum overflow with arguments 4096 and <int>".
+fx.mo:Expected error in mat fxsll: "fxsll: fixnum overflow with arguments 4097 and <int>".
 fx.mo:Expected error in mat fxsll: "fxsll: fixnum overflow with arguments -1 and <int>".
 fx.mo:Expected error in mat fxsll: "fxsll: fixnum overflow with arguments <int> and 1".
 fx.mo:Expected error in mat fxsll: "fxsll: fixnum overflow with arguments <int> and 10".
-fx.mo:Expected error in mat fxsll: "fxsll: fixnum overflow with arguments 4096 and <int>".
+fx.mo:Expected error in mat fxsll: "fxsll: fixnum overflow with arguments -4097 and <int>".
 fx.mo:Expected error in mat fxsll: "fxsll: fixnum overflow with arguments <-int> and 1".
 fx.mo:Expected error in mat fxarithmetic-shift-left: "fxarithmetic-shift-left: invalid shift count <int>".
-fx.mo:Expected error in mat fxarithmetic-shift-left: "fxsll: a is not a fixnum".
-fx.mo:Expected error in mat fxarithmetic-shift-left: "fxsll: 1e23 is not a fixnum".
-fx.mo:Expected error in mat fxarithmetic-shift-left: "fxsll: <int> is not a fixnum".
+fx.mo:Expected error in mat fxarithmetic-shift-left: "fxarithmetic-shift-left: a is not a fixnum".
+fx.mo:Expected error in mat fxarithmetic-shift-left: "fxarithmetic-shift-left: 1e23 is not a fixnum".
+fx.mo:Expected error in mat fxarithmetic-shift-left: "fxarithmetic-shift-left: <int> is not a fixnum".
 fx.mo:Expected error in mat fxarithmetic-shift-left: "fxarithmetic-shift-left: invalid shift count -1".
 fx.mo:Expected error in mat fxarithmetic-shift-left: "fxarithmetic-shift-left: fixnum overflow with arguments 1 and <int>".
-fx.mo:Expected error in mat fxarithmetic-shift-left: "fxarithmetic-shift-left: fixnum overflow with arguments 4096 and <int>".
+fx.mo:Expected error in mat fxarithmetic-shift-left: "fxarithmetic-shift-left: fixnum overflow with arguments 4097 and <int>".
 fx.mo:Expected error in mat fxarithmetic-shift-left: "fxarithmetic-shift-left: invalid shift count <int>".
 fx.mo:Expected error in mat fxarithmetic-shift-left: "fxarithmetic-shift-left: fixnum overflow with arguments <int> and 1".
 fx.mo:Expected error in mat fxarithmetic-shift-left: "fxarithmetic-shift-left: fixnum overflow with arguments <int> and 10".
-fx.mo:Expected error in mat fxarithmetic-shift-left: "fxarithmetic-shift-left: fixnum overflow with arguments 4096 and <int>".
+fx.mo:Expected error in mat fxarithmetic-shift-left: "fxarithmetic-shift-left: fixnum overflow with arguments -4097 and <int>".
 fx.mo:Expected error in mat fxarithmetic-shift-left: "fxarithmetic-shift-left: fixnum overflow with arguments <-int> and 1".
 fx.mo:Expected error in mat fxsrl: "fxsrl: invalid shift count -1".
 fx.mo:Expected error in mat fxsrl: "fxsrl: invalid shift count <int>".
@@ -8613,11 +8701,11 @@ fx.mo:Expected error in mat fxarithmetic-shift: "fxarithmetic-shift: a is not a 
 fx.mo:Expected error in mat fxarithmetic-shift: "fxarithmetic-shift: a is not a fixnum".
 fx.mo:Expected error in mat fxarithmetic-shift: "fxarithmetic-shift: <int> is not a fixnum".
 fx.mo:Expected error in mat fxarithmetic-shift: "fxarithmetic-shift: fixnum overflow with arguments 1 and <int>".
-fx.mo:Expected error in mat fxarithmetic-shift: "fxarithmetic-shift: fixnum overflow with arguments 4096 and <int>".
+fx.mo:Expected error in mat fxarithmetic-shift: "fxarithmetic-shift: fixnum overflow with arguments 4097 and <int>".
 fx.mo:Expected error in mat fxarithmetic-shift: "fxarithmetic-shift: invalid shift count <int>".
 fx.mo:Expected error in mat fxarithmetic-shift: "fxarithmetic-shift: fixnum overflow with arguments <int> and 1".
 fx.mo:Expected error in mat fxarithmetic-shift: "fxarithmetic-shift: fixnum overflow with arguments <int> and 10".
-fx.mo:Expected error in mat fxarithmetic-shift: "fxarithmetic-shift: fixnum overflow with arguments 4096 and <int>".
+fx.mo:Expected error in mat fxarithmetic-shift: "fxarithmetic-shift: fixnum overflow with arguments -4097 and <int>".
 fx.mo:Expected error in mat fxarithmetic-shift: "fxarithmetic-shift: fixnum overflow with arguments <-int> and 1".
 fx.mo:Expected error in mat fxbit-field: "incorrect argument count in call (fxbit-field)".
 fx.mo:Expected error in mat fxbit-field: "incorrect argument count in call (fxbit-field 35)".
@@ -9121,13 +9209,17 @@ fl.mo:Expected error in mat fleven?: "fleven?: 3 is not a flonum".
 fl.mo:Expected error in mat fleven?: "fleven?: 3.2 is not an integer".
 fl.mo:Expected error in mat fleven?: "fleven?: 3.0+1.0i is not a flonum".
 fl.mo:Expected error in mat fleven?: "fleven?: 1+1i is not a flonum".
+fl.mo:Expected error in mat fleven?: "fleven?: +inf.0 is not an integer".
+fl.mo:Expected error in mat fleven?: "fleven?: +nan.0 is not an integer".
 fl.mo:Expected error in mat flodd?: "incorrect argument count in call (flodd?)".
 fl.mo:Expected error in mat flodd?: "incorrect argument count in call (flodd? 0.0 1.0)".
 fl.mo:Expected error in mat flodd?: "flodd?: a is not a flonum".
 fl.mo:Expected error in mat flodd?: "flodd?: 3 is not a flonum".
-fl.mo:Expected error in mat flodd?: "odd?: 3.2 is not an integer".
+fl.mo:Expected error in mat flodd?: "flodd?: 3.2 is not an integer".
 fl.mo:Expected error in mat flodd?: "flodd?: 3.0+1.0i is not a flonum".
 fl.mo:Expected error in mat flodd?: "flodd?: 3+1i is not a flonum".
+fl.mo:Expected error in mat flodd?: "flodd?: +inf.0 is not an integer".
+fl.mo:Expected error in mat flodd?: "flodd?: +nan.0 is not an integer".
 fl.mo:Expected error in mat flmin: "incorrect argument count in call (flmin)".
 fl.mo:Expected error in mat flmin: "flmin: a is not a flonum".
 fl.mo:Expected error in mat flmin: "flmin: a is not a flonum".
@@ -9849,7 +9941,6 @@ date.mo:Expected error in mat date: "incorrect argument count in call (make-date
 date.mo:Expected error in mat date: "incorrect argument count in call (make-date 0 0 0 0 1)".
 date.mo:Expected error in mat date: "incorrect argument count in call (make-date 0 0 0 0 1 ...)".
 date.mo:Expected error in mat date: "incorrect argument count in call (make-date 0 0 0 0 1 ...)".
-date.mo:Expected error in mat date: "incorrect argument count in call (make-date 0 0 0 0 1 ...)".
 date.mo:Expected error in mat date: "make-date: invalid nanosecond -1".
 date.mo:Expected error in mat date: "make-date: invalid nanosecond <int>".
 date.mo:Expected error in mat date: "make-date: invalid nanosecond zero".
@@ -9917,10 +10008,18 @@ date.mo:Expected error in mat date: "incorrect argument count in call (date-year
 date.mo:Expected error in mat date: "incorrect argument count in call (date-year-day $date-d1 #t)".
 date.mo:Expected error in mat date: "date-year-day: 17 is not a date record".
 date.mo:Expected error in mat date: "date-year-day: <time> is not a date record".
+date.mo:Expected error in mat date: "incorrect argument count in call (date-dst?)".
+date.mo:Expected error in mat date: "incorrect argument count in call (date-dst? $date-d1 #t)".
+date.mo:Expected error in mat date: "date-dst?: 17 is not a date record".
+date.mo:Expected error in mat date: "date-dst?: <time> is not a date record".
 date.mo:Expected error in mat date: "incorrect argument count in call (date-zone-offset)".
 date.mo:Expected error in mat date: "incorrect argument count in call (date-zone-offset $date-d1 #t)".
 date.mo:Expected error in mat date: "date-zone-offset: 17 is not a date record".
 date.mo:Expected error in mat date: "date-zone-offset: <time> is not a date record".
+date.mo:Expected error in mat date: "incorrect argument count in call (date-zone-name)".
+date.mo:Expected error in mat date: "incorrect argument count in call (date-zone-name $date-d1 #t)".
+date.mo:Expected error in mat date: "date-zone-name: 17 is not a date record".
+date.mo:Expected error in mat date: "date-zone-name: <time> is not a date record".
 date.mo:Expected error in mat date: "incorrect argument count in call (current-date 0 #t)".
 date.mo:Expected error in mat date: "current-date: invalid time-zone offset -90000".
 date.mo:Expected error in mat date: "current-date: invalid time-zone offset 90000".

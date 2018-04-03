@@ -1,5 +1,5 @@
 /* externs.h
- * Copyright 1984-2016 Cisco Systems, Inc.
+ * Copyright 1984-2017 Cisco Systems, Inc.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -197,16 +197,24 @@ extern ptr S_get_fd_length PROTO((ptr file, IBOOL gzflag));
 extern ptr S_set_fd_length PROTO((ptr file, ptr length, IBOOL gzflag));
 extern void S_new_io_init PROTO((void));
 
+extern uptr S_bytevector_compress_size PROTO((iptr s_count));
+extern ptr S_bytevector_compress PROTO((ptr dest_bv, iptr d_start, iptr d_count,
+                                        ptr src_bv, iptr s_start, iptr s_count));
+extern ptr S_bytevector_uncompress PROTO((ptr dest_bv, iptr d_start, iptr d_count,
+                                          ptr src_bv, iptr s_start, iptr s_count));
+
 /* thread.c */
 extern void S_thread_init PROTO((void));
 extern ptr S_create_thread_object PROTO((const char *who, ptr p_tc));
 #ifdef PTHREADS
 extern ptr S_fork_thread PROTO((ptr thunk));
 extern scheme_mutex_t *S_make_mutex PROTO((void));
+extern void S_mutex_free PROTO((scheme_mutex_t *m));
 extern void S_mutex_acquire PROTO((scheme_mutex_t *m));
 extern INT S_mutex_tryacquire PROTO((scheme_mutex_t *m));
 extern void S_mutex_release PROTO((scheme_mutex_t *m));
 extern s_thread_cond_t *S_make_condition PROTO((void));
+extern void S_condition_free PROTO((s_thread_cond_t *c));
 extern IBOOL S_condition_wait PROTO((s_thread_cond_t *c, scheme_mutex_t *m, ptr t));
 #endif
 
@@ -313,7 +321,7 @@ extern ptr S_gmtime PROTO((ptr tzoff, ptr tspair));
 extern ptr S_asctime PROTO((ptr dtvec));
 extern ptr S_mktime PROTO((ptr dtvec));
 extern ptr S_unique_id PROTO((void));
-extern void s_gettime PROTO((INT typeno, struct timespec *tp));
+extern void S_gettime PROTO((INT typeno, struct timespec *tp));
 
 /* symbol.c */
 extern ptr S_symbol_value PROTO((ptr sym));
@@ -330,18 +338,9 @@ extern void S_machine_init PROTO((void));
 extern void S_initframe PROTO((ptr tc, iptr n));
 extern void S_put_arg PROTO((ptr tc, iptr i, ptr x));
 extern void S_return PROTO((void));
-extern void S_call_help PROTO((ptr tc, IBOOL singlep));
-extern void S_call_void PROTO((void));
-extern ptr S_call_ptr PROTO((void));
-extern iptr S_call_fixnum PROTO((void));
-extern I32 S_call_int32 PROTO((void));
-extern U32 S_call_uns32 PROTO((void));
-extern double S_call_double PROTO((void));
-extern float S_call_single PROTO((void));
-extern U8 *S_call_bytevector PROTO((void));
-extern I64 S_call_int64 PROTO((void));
-extern U64 S_call_uns64 PROTO((void));
-extern uptr S_call_fptr PROTO((void));
+extern void S_call_help PROTO((ptr tc, IBOOL singlep, IBOOL lock_ts));
+extern void S_call_one_result PROTO((void));
+extern void S_call_any_results PROTO((void));
 
 #ifdef WIN32
 /* windows.c */

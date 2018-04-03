@@ -1,5 +1,5 @@
 /* thread.c
- * Copyright 1984-2016 Cisco Systems, Inc.
+ * Copyright 1984-2017 Cisco Systems, Inc.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -172,6 +172,21 @@ static IBOOL destroy_thread(tc) ptr tc; {
      /* process remembered set before dropping allocation area */
       S_scan_dirty((ptr **)EAP(tc), (ptr **)REAL_EAP(tc));
 
+     /* process guardian entries */
+      {
+	ptr target, ges, obj, next; seginfo *si;
+	target = S_G.guardians[0];
+	for (ges = GUARDIANENTRIES(tc); ges != Snil; ges = next) {
+	  obj = GUARDIANOBJ(ges);
+	  next = GUARDIANNEXT(ges);
+	  if (!IMMEDIATE(obj) && (si = MaybeSegInfo(ptr_get_segment(obj))) != NULL && si->generation != static_generation) {
+	    INITGUARDIANNEXT(ges) = target;
+	    target = ges;
+	  }
+	}
+	S_G.guardians[0] = target;
+      }
+
      /* deactivate thread */
       if (ACTIVE(tc)) {
         SETSYMVAL(S_G.active_threads_id,
@@ -185,6 +200,7 @@ static IBOOL destroy_thread(tc) ptr tc; {
       free((void *)THREADTC(thread));
       THREADTC(thread) = 0; /* mark it dead */
       status = 1;
+      break;
     }
     ls = &Scdr(*ls);
   }
@@ -241,6 +257,11 @@ scheme_mutex_t *S_make_mutex() {
   m->count = 0;
 
   return m;
+}
+
+void S_mutex_free(m) scheme_mutex_t *m; {
+  s_thread_mutex_destroy(&m->pmutex);
+  free(m);
 }
 
 void S_mutex_acquire(m) scheme_mutex_t *m; {
@@ -306,12 +327,17 @@ s_thread_cond_t *S_make_condition() {
   return c;
 }
 
+void S_condition_free(c) s_thread_cond_t *c; {
+  s_thread_cond_destroy(c);
+  free(c);
+}
+
 #ifdef FEATURE_WINDOWS
 
 static inline int s_thread_cond_timedwait(s_thread_cond_t *cond, s_thread_mutex_t *mutex, int typeno, long sec, long nsec) {
   if (typeno == time_utc) {
     struct timespec now;
-    s_gettime(time_utc, &now);
+    S_gettime(time_utc, &now);
     sec -= (long)now.tv_sec;
     nsec -= now.tv_nsec;
     if (nsec < 0) {
@@ -338,7 +364,7 @@ static inline int s_thread_cond_timedwait(s_thread_cond_t *cond, s_thread_mutex_
   struct timespec t;
   if (typeno == time_duration) {
     struct timespec now;
-    s_gettime(time_utc, &now);
+    S_gettime(time_utc, &now);
     t.tv_sec = now.tv_sec + sec;
     t.tv_nsec = now.tv_nsec + nsec;
     if (t.tv_nsec >= 1000000000) {

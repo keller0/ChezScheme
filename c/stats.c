@@ -1,5 +1,5 @@
 /* stats.c
- * Copyright 1984-2016 Cisco Systems, Inc.
+ * Copyright 1984-2017 Cisco Systems, Inc.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,6 +37,8 @@
 #include <time.h>
 
 static struct timespec starting_mono_tp;
+
+static long adjust_time_zone(ptr dtvec, struct tm *tmxp, ptr given_tzoff);
 
 /********  unique-id  ********/
 
@@ -117,7 +119,7 @@ typedef void (WINAPI *GetSystemTimeAsFileTime_t)(LPFILETIME lpSystemTimeAsFileTi
 
 static GetSystemTimeAsFileTime_t s_GetSystemTimeAsFileTime = GetSystemTimeAsFileTime;
 
-void s_gettime(INT typeno, struct timespec *tp) {
+void S_gettime(INT typeno, struct timespec *tp) {
   switch (typeno) {
     case time_process: {
       FILETIME ftKernel, ftUser, ftDummy;
@@ -203,7 +205,7 @@ void s_gettime(INT typeno, struct timespec *tp) {
     }
 
     default:
-      S_error1("s_gettime", "unexpected typeno ~s", Sinteger(typeno));
+      S_error1("S_gettime", "unexpected typeno ~s", Sinteger(typeno));
       break;
   }
 }
@@ -226,7 +228,7 @@ static char *asctime_r(const struct tm *tm, char *buf) {
 
 #else /* WIN32 */
 
-void s_gettime(INT typeno, struct timespec *tp) {
+void S_gettime(INT typeno, struct timespec *tp) {
   switch (typeno) {
     case time_thread:
 #ifdef CLOCK_THREAD_CPUTIME_ID
@@ -242,7 +244,7 @@ void s_gettime(INT typeno, struct timespec *tp) {
         struct rusage rbuf;
 
         if (getrusage(RUSAGE_SELF,&rbuf) != 0)
-          S_error1("s_gettime", "failed: ~s", S_strerror(errno));
+          S_error1("S_gettime", "failed: ~s", S_strerror(errno));
         tp->tv_sec = rbuf.ru_utime.tv_sec + rbuf.ru_stime.tv_sec;
         tp->tv_nsec = (rbuf.ru_utime.tv_usec + rbuf.ru_stime.tv_usec) * 1000;
         if (tp->tv_nsec >= 1000000000) {
@@ -275,13 +277,13 @@ void s_gettime(INT typeno, struct timespec *tp) {
         struct timeval tvtp;
 
         if (gettimeofday(&tvtp,NULL) != 0)
-          S_error1("s_gettime", "failed: ~s", S_strerror(errno));
+          S_error1("S_gettime", "failed: ~s", S_strerror(errno));
         tp->tv_sec = (time_t)tvtp.tv_sec;
         tp->tv_nsec = (long)(tvtp.tv_usec * 1000);
         return;
       }
     default:
-      S_error1("s_gettime", "unexpected typeno ~s", Sinteger(typeno));
+      S_error1("S_gettime", "unexpected typeno ~s", Sinteger(typeno));
       break;
   }
 }
@@ -292,7 +294,7 @@ ptr S_clock_gettime(I32 typeno) {
   struct timespec tp;
   time_t sec; I32 nsec;
 
-  s_gettime(typeno, &tp);
+  S_gettime(typeno, &tp);
 
   sec = tp.tv_sec;
   nsec = tp.tv_nsec;
@@ -317,7 +319,7 @@ ptr S_gmtime(ptr tzoff, ptr tspair) {
   if (tspair == Sfalse) {
     struct timespec tp;
 
-    s_gettime(time_utc, &tp);
+    S_gettime(time_utc, &tp);
     tx = tp.tv_sec;
     INITVECTIT(dtvec, dtvec_nsec) = Sinteger(tp.tv_nsec);
   } else {
@@ -326,16 +328,16 @@ ptr S_gmtime(ptr tzoff, ptr tspair) {
   }
 
   if (tzoff == Sfalse) {
-    struct tm tmx2; time_t tx2;
     if (localtime_r(&tx, &tmx) == NULL) return Sfalse;
-    if (gmtime_r(&tx, &tmx2) == NULL) return Sfalse;
-    tmx2.tm_isdst = tmx.tm_isdst;
-    if ((tx2 = mktime(&tmx2)) == (time_t)-1) return Sfalse;
-    INITVECTIT(dtvec, dtvec_tzoff) = S_integer_time_t(tx - tx2);
+    tmx.tm_isdst = -1; /* have mktime determine the DST status */
+    if (mktime(&tmx) == (time_t)-1) return Sfalse;
+    (void) adjust_time_zone(dtvec, &tmx, Sfalse);
   } else {
     tx += Sinteger_value(tzoff);
     if (gmtime_r(&tx, &tmx) == NULL) return Sfalse;
     INITVECTIT(dtvec, dtvec_tzoff) = tzoff;
+    INITVECTIT(dtvec, dtvec_isdst) = Sfalse;
+    INITVECTIT(dtvec, dtvec_tzname) = Sfalse;
   }
 
   INITVECTIT(dtvec, dtvec_sec) = Sinteger(tmx.tm_sec);
@@ -346,7 +348,6 @@ ptr S_gmtime(ptr tzoff, ptr tspair) {
   INITVECTIT(dtvec, dtvec_year) = Sinteger(tmx.tm_year);
   INITVECTIT(dtvec, dtvec_wday) = Sinteger(tmx.tm_wday);
   INITVECTIT(dtvec, dtvec_yday) = Sinteger(tmx.tm_yday);
-  INITVECTIT(dtvec, dtvec_isdst) = Sinteger(tmx.tm_isdst);
 
   return dtvec;
 }
@@ -367,7 +368,7 @@ ptr S_asctime(ptr dtvec) {
     tmx.tm_year = (int)Sinteger_value(Svector_ref(dtvec, dtvec_year));
     tmx.tm_wday = (int)Sinteger_value(Svector_ref(dtvec, dtvec_wday));
     tmx.tm_yday = (int)Sinteger_value(Svector_ref(dtvec, dtvec_yday));
-    tmx.tm_isdst = (int)Sinteger_value(Svector_ref(dtvec, dtvec_isdst));
+    tmx.tm_isdst = (int)Sboolean_value(Svector_ref(dtvec, dtvec_isdst));
     if (asctime_r(&tmx, buf) == NULL) return Sfalse;
   }
 
@@ -377,7 +378,8 @@ ptr S_asctime(ptr dtvec) {
 ptr S_mktime(ptr dtvec) {
   time_t tx;
   struct tm tmx;
-  long orig_tzoff = (long)UNFIX(INITVECTIT(dtvec, dtvec_tzoff));
+  long orig_tzoff, tzoff;
+  ptr given_tzoff;
 
   tmx.tm_sec = (int)Sinteger_value(Svector_ref(dtvec, dtvec_sec));
   tmx.tm_min = (int)Sinteger_value(Svector_ref(dtvec, dtvec_min));
@@ -386,18 +388,14 @@ ptr S_mktime(ptr dtvec) {
   tmx.tm_mon = (int)Sinteger_value(Svector_ref(dtvec, dtvec_mon)) - 1;
   tmx.tm_year = (int)Sinteger_value(Svector_ref(dtvec, dtvec_year));
 
-  tmx.tm_isdst = 0;
+  given_tzoff = INITVECTIT(dtvec, dtvec_tzoff);
+  if (given_tzoff == Sfalse)
+    orig_tzoff = 0;
+  else
+    orig_tzoff = (long)UNFIX(given_tzoff);
+  
+  tmx.tm_isdst = -1; /* have mktime determine the DST status */
   if ((tx = mktime(&tmx)) == (time_t)-1) return Sfalse;
-  if (tmx.tm_isdst == 1) { /* guessed wrong */
-    tmx.tm_sec = (int)Sinteger_value(Svector_ref(dtvec, dtvec_sec));
-    tmx.tm_min = (int)Sinteger_value(Svector_ref(dtvec, dtvec_min));
-    tmx.tm_hour = (int)Sinteger_value(Svector_ref(dtvec, dtvec_hour));
-    tmx.tm_mday = (int)Sinteger_value(Svector_ref(dtvec, dtvec_mday));
-    tmx.tm_mon = (int)Sinteger_value(Svector_ref(dtvec, dtvec_mon)) - 1;
-    tmx.tm_year = (int)Sinteger_value(Svector_ref(dtvec, dtvec_year));
-    tmx.tm_isdst = 1;
-    if ((tx = mktime(&tmx)) == (time_t)-1) return Sfalse;
-  }
 
  /* mktime may have normalized some values, set wday and yday */
   INITVECTIT(dtvec, dtvec_sec) = Sinteger(tmx.tm_sec);
@@ -408,36 +406,73 @@ ptr S_mktime(ptr dtvec) {
   INITVECTIT(dtvec, dtvec_year) = Sinteger(tmx.tm_year);
   INITVECTIT(dtvec, dtvec_wday) = Sinteger(tmx.tm_wday);
   INITVECTIT(dtvec, dtvec_yday) = Sinteger(tmx.tm_yday);
-#ifdef WIN32
-  {
-    TIME_ZONE_INFORMATION tz;
-    DWORD rc = GetTimeZoneInformation(&tz);
-    long tzoff;
 
-    switch (rc) {
-      case TIME_ZONE_ID_UNKNOWN:
-      case TIME_ZONE_ID_STANDARD:
-        tzoff = tz.Bias * -60;
-        break;
-      case TIME_ZONE_ID_DAYLIGHT:
-        tzoff = (tz.Bias + tz.DaylightBias) * -60;
-        break;
-    }
-    if (tzoff != orig_tzoff) tx = (time_t) difftime(tx, (time_t)(orig_tzoff - tzoff));
-  }
-#else
-  if (tmx.tm_gmtoff != orig_tzoff) tx = difftime(tx, (time_t)(orig_tzoff - tmx.tm_gmtoff));
-#endif
+  tzoff = adjust_time_zone(dtvec, &tmx, given_tzoff);
+
+  if (tzoff != orig_tzoff) tx = tx - orig_tzoff + tzoff;
+
   return Scons(S_integer_time_t(tx), Svector_ref(dtvec, dtvec_nsec));
 }
 
+static long adjust_time_zone(ptr dtvec, struct tm *tmxp, ptr given_tzoff) {
+  ptr tz_name = Sfalse;
+  long use_tzoff, tzoff;
+
+#ifdef WIN32
+  {
+    TIME_ZONE_INFORMATION tz;
+    WCHAR *w_tzname;
+    int len;
+
+    /* The ...ForYear() function is available on Windows Vista and later: */
+    GetTimeZoneInformationForYear(tmxp->tm_year, NULL, &tz);
+    
+    if (tmxp->tm_isdst) {
+      tzoff = (tz.Bias + tz.DaylightBias) * -60;
+      w_tzname = tz.DaylightName;
+    } else {
+      tzoff = (tz.Bias + tz.StandardBias) * -60;
+      w_tzname = tz.StandardName;
+    }
+
+    if (given_tzoff == Sfalse) {
+      len = (int)wcslen(w_tzname);
+      tz_name = S_string(NULL, len);
+      while (len--)
+        Sstring_set(tz_name, len, w_tzname[len]);
+    }
+  }
+#else
+  tzoff = tmxp->tm_gmtoff;
+  if (given_tzoff == Sfalse) {
+# if defined(__linux__) || defined(SOLARIS)
+    /* Linux and Solaris set `tzname`: */
+    tz_name = S_string(tzname[tmxp->tm_isdst], -1);
+# else
+    /* BSD variants add `tm_zone` in `struct tm`: */
+    tz_name = S_string(tmxp->tm_zone, -1);
+# endif
+  }
+#endif
+
+  if (given_tzoff == Sfalse)
+    use_tzoff = tzoff;
+  else
+    use_tzoff = (long)UNFIX(given_tzoff);
+
+  INITVECTIT(dtvec, dtvec_isdst) = ((given_tzoff == Sfalse) ? Sboolean(tmxp->tm_isdst) : Sfalse);
+  INITVECTIT(dtvec, dtvec_tzoff) = FIX(use_tzoff);
+  INITVECTIT(dtvec, dtvec_tzname) = tz_name;
+
+  return tzoff;
+}
 
 /********  old real-time and cpu-time support  ********/
 
 ptr S_cputime(void) {
   struct timespec tp;
 
-  s_gettime(time_process, &tp);
+  S_gettime(time_process, &tp);
   return S_add(S_mul(S_integer_time_t(tp.tv_sec), FIX(1000)),
                Sinteger((tp.tv_nsec + 500000) / 1000000));
 }
@@ -446,7 +481,7 @@ ptr S_realtime(void) {
   struct timespec tp;
   time_t sec; I32 nsec;
 
-  s_gettime(time_monotonic, &tp);
+  S_gettime(time_monotonic, &tp);
 
   sec = tp.tv_sec - starting_mono_tp.tv_sec;
   nsec = tp.tv_nsec - starting_mono_tp.tv_nsec;
@@ -472,5 +507,5 @@ void S_stats_init() {
       FreeLibrary(h);
   }
 #endif
-  s_gettime(time_monotonic, &starting_mono_tp);
+  S_gettime(time_monotonic, &starting_mono_tp);
 }

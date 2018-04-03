@@ -1,6 +1,6 @@
 "7.ss"
 ;;; 7.ss
-;;; Copyright 1984-2016 Cisco Systems, Inc.
+;;; Copyright 1984-2017 Cisco Systems, Inc.
 ;;; 
 ;;; Licensed under the Apache License, Version 2.0 (the "License");
 ;;; you may not use this file except in compliance with the License.
@@ -129,7 +129,7 @@
               (let ([k (get-u8 p)])
                 (f k (logor (ash n 7) (fxsrl k 1))))
               n))))
-    (define (malformed p) ($oops "malformed fasl-object header found in ~s" p))
+    (define (malformed p) ($oops 'fasl-read "malformed fasl-object header found in ~s" p))
     (define (check-header p)
       (let ([bv (make-bytevector 8 (constant fasl-type-header))])
         (unless (and (eqv? (get-bytevector-n! p bv 1 7) 7)
@@ -631,7 +631,7 @@
 
 (define $scheme-greeting
   (lambda ()
-    (format "~a\nCopyright 1984-2016 Cisco Systems, Inc.\n"
+    (format "~a\nCopyright 1984-2017 Cisco Systems, Inc.\n"
       (scheme-version))))
 
 (define $session-key #f)
@@ -669,8 +669,12 @@
                   "~%[collecting generation ~s into generation ~s..."
                   g gtarget)
                 (flush-output-port (console-output-port)))
+              (when (eqv? g (collect-maximum-generation))
+                ($clear-source-lines-cache))
               (do-gc g gtarget)
               ($close-resurrected-files)
+              (when-feature pthreads
+                ($close-resurrected-mutexes&conditions))
               (when (collect-notify)
                 (fprintf (console-output-port) "done]~%")
                 (flush-output-port (console-output-port)))
@@ -745,6 +749,12 @@
                    (or (eqv? gtarget g) (eqv? gtarget (fx+ g 1))))
          ($oops who "invalid target generation ~s for generation ~s" gtarget g))
        (collect2 g (if (eq? gtarget 'static) (constant static-generation) gtarget))])))
+
+(set! collect-rendezvous
+  (let ([fire-collector (foreign-procedure "(cs)fire_collector" () void)])
+    (lambda ()
+      (fire-collector)
+      ($collect-rendezvous))))
 
 (set! keyboard-interrupt-handler
    ($make-thread-parameter

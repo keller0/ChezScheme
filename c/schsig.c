@@ -1,5 +1,5 @@
 /* schsig.c
- * Copyright 1984-2016 Cisco Systems, Inc.
+ * Copyright 1984-2017 Cisco Systems, Inc.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -314,7 +314,7 @@ void S_error_abort(s) const char *s; {
 
 void S_abnormal_exit() {
   S_abnormal_exit_proc();
-  fprintf(stderr, "abnormal_exit proedure did not exit\n");
+  fprintf(stderr, "abnormal_exit procedure did not exit\n");
   exit(1);
 }
 

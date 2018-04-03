@@ -1,5 +1,5 @@
 # Makefile.ti3nt
-# Copyright 1984-2016 Cisco Systems, Inc.
+# Copyright 1984-2017 Cisco Systems, Inc.
 # 
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,11 +17,11 @@ m = ti3nt
 
 # following have to use \ for directory separator
 SchemeInclude = ..\boot\$m
-KernelDll = ..\bin\$m\csv941.dll
-KernelLib = ..\bin\$m\csv941.lib
-MTKernelLib = ..\boot\$m\csv941mt.lib
-MDKernelLib = ..\boot\$m\csv941md.lib
-KernelExp = ..\bin\$m\csv941.exp
+KernelDll = ..\bin\$m\csv951.dll
+KernelLib = ..\bin\$m\csv951.lib
+MTKernelLib = ..\boot\$m\csv951mt.lib
+MDKernelLib = ..\boot\$m\csv951md.lib
+KernelExp = ..\bin\$m\csv951.exp
 Exec = ..\bin\$m\scheme.exe
 MTMain = ..\boot\$m\mainmt.obj
 MDMain = ..\boot\$m\mainmd.obj

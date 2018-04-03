@@ -1,5 +1,5 @@
 /* main.c
- * Copyright 1984-2016 Cisco Systems, Inc.
+ * Copyright 1984-2017 Cisco Systems, Inc.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -333,7 +333,7 @@ int main(int argc, const char *argv[]) {
    /* Sscheme_script invokes the value of the scheme-script parameter */
     status = Sscheme_script(scriptfile, new_argc, argv);
   else if (programfile != (char *)0)
-   /* Sscheme_script invokes the value of the scheme-script parameter */
+   /* Sscheme_program invokes the value of the scheme-program parameter */
     status = Sscheme_program(programfile, new_argc, argv);
   else {
    /* Sscheme_start invokes the value of the scheme-start parameter */

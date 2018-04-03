@@ -1,5 +1,5 @@
 "record.ss"
-;;; Copyright 1984-2016 Cisco Systems, Inc.
+;;; Copyright 1984-2017 Cisco Systems, Inc.
 ;;; 
 ;;; Licensed under the Apache License, Version 2.0 (the "License");
 ;;; you may not use this file except in compliance with the License.
@@ -51,10 +51,7 @@
         (lambda (n)
           (unless (and (fixnum? n) (fx> n 0))
             ($oops who "~s is not a positive fixnum" n))
-          (let ([x (malloc n)])
-            (if (string? x)
-                ($oops who "system call failed: ~(~a~)" x)
-                x)))))
+          (malloc n))))
 
     (set-who! foreign-free
       (let ([free (foreign-procedure "(cs)free" (uptr) void)])

@@ -1,4 +1,4 @@
-% Copyright 2005-2016 Cisco Systems, Inc.
+% Copyright 2005-2017 Cisco Systems, Inc.
 % 
 % Licensed under the Apache License, Version 2.0 (the "License");
 % you may not use this file except in compliance with the License.
@@ -2729,7 +2729,7 @@ format string with the \scheme{~@(} and \scheme{~)} directives.
 
 \schemedisplay
 (format "~@(~r~)" 2599) ;=>  "Two thousand five hundred ninety-nine"
-(format "~@:(~a~)" "Ouch!") ;=>  "ouch!"
+(format "~@:(~a~)" "Ouch!") ;=>  "OUCH!"
 \endschemedisplay
 
 \noindent
@@ -3661,8 +3661,8 @@ the last dot (period) in the last component of a path name.
 The path root component is the portion of \var{path} that does not
 include the extension, if any, or the dot that precedes it.
 
-If the first component names a root directory (including drivers
-and shared under Windows) or home directory,
+If the first component names a root directory (including drives
+and shares under Windows) or home directory,
 \scheme{path-absolute?} returns \scheme{#t}.
 Otherwise, \scheme{path-absolute?} returns \scheme{#f}. 
 

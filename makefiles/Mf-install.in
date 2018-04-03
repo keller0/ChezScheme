@@ -1,5 +1,5 @@
 # Mf-install.in
-# Copyright 1984-2016 Cisco Systems, Inc.
+# Copyright 1984-2017 Cisco Systems, Inc.
 # 
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -58,7 +58,7 @@ InstallScriptName=scheme-script
 #                 no changes should be needed below this point                #
 ###############################################################################
 
-Version=csv9.4.1
+Version=csv9.5.1
 Include=boot/$m
 PetiteBoot=boot/$m/petite.boot
 SchemeBoot=boot/$m/scheme.boot
@@ -123,6 +123,9 @@ libbininstall: ${LibBin}
           ln -f ${LibBin}/scheme.boot ${LibBin}/${InstallSchemeName}.boot;\
         fi
 	ln -sf ${LibBin}/scheme.boot ${LibBin}/${InstallScriptName}.boot;
+	$I -m 444 ${Include}/equates.h ${LibBin}
+	$I -m 444 ${Include}/kernel.o ${LibBin}
+	$I -m 444 ${Include}/main.o ${LibBin}
 	$I -m 444 ${Include}/scheme.h ${LibBin}
 
 maninstall: scheme.1 petite.1 ${Man}

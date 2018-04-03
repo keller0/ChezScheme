@@ -217,8 +217,8 @@
           (printf "client:~%~a~%server:~%" (utf8->string bv))))))
 > (get)
 client:
-Chez Scheme Version 9.4.1
-Copyright 1984-2016 Cisco Systems, Inc.
+Chez Scheme Version 9.5.1
+Copyright 1984-2017 Cisco Systems, Inc.
 
 >
 server:

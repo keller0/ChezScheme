@@ -1,5 +1,5 @@
 ;;; mkheader.ss
-;;; Copyright 1984-2016 Cisco Systems, Inc.
+;;; Copyright 1984-2017 Cisco Systems, Inc.
 ;;; 
 ;;; Licensed under the Apache License, Version 2.0 (the "License");
 ;;; you may not use this file except in compliance with the License.
@@ -780,6 +780,11 @@
         (defref BOXTYPE box type)
         (definit INITBOXREF box ref)
         (defset SETBOXREF box ref)
+
+        (defref EPHEMERONNEXT ephemeron next)
+        (definit INITEPHEMERONNEXT ephemeron next)
+        (defref EPHEMERONTRIGGERNEXT ephemeron trigger-next)
+        (definit INITEPHEMERONTRIGGERNEXT ephemeron trigger-next)
 
         (defref TLCTYPE tlc type)
         (defref TLCKEYVAL tlc keyval)

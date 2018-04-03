@@ -1,5 +1,5 @@
 ;;; base-lang.ss
-;;; Copyright 1984-2016 Cisco Systems, Inc.
+;;; Copyright 1984-2017 Cisco Systems, Inc.
 ;;; 
 ;;; Licensed under the Apache License, Version 2.0 (the "License");
 ;;; you may not use this file except in compliance with the License.
@@ -184,7 +184,7 @@
 
   ; language of foreign types
   (define-language Ltype 
-    (nongenerative-id #{Ltype czp82kxwe75y4e18-0})
+    (nongenerative-id #{Ltype czp82kxwe75y4e18-1})
     (terminals
       (exact-integer (bits))
       ($ftd (ftd)))
@@ -199,7 +199,8 @@
       (fp-fixnum)
       (fp-double-float)
       (fp-single-float)
-      (fp-ftd ftd)))
+      (fp-ftd ftd)
+      (fp-ftd& ftd)))
 
   (define arity?
     (lambda (x)

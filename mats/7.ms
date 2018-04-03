@@ -1,5 +1,5 @@
 ;;; 7.ms
-;;; Copyright 1984-2016 Cisco Systems, Inc.
+;;; Copyright 1984-2017 Cisco Systems, Inc.
 ;;; 
 ;;; Licensed under the Apache License, Version 2.0 (the "License");
 ;;; you may not use this file except in compliance with the License.
@@ -834,6 +834,47 @@
   (begin
     (rm-rf "testdir")
     #t)
+  ; make sure maybe-compile-file handles incomplete fasl files
+  (begin
+    (mkfile "testfile-mc-2a.ss"
+      '(library (testfile-mc-2a)
+         (export q)
+         (import (chezscheme))
+         (define f
+           (lambda ()
+             (printf "running f\n")
+             "x"))
+         (define-syntax q
+           (begin
+             (printf "expanding testfile-mc-2a\n")
+             (lambda (x)
+               (printf "expanding q\n")
+               #'(f))))))
+    (mkfile "testfile-mc-2.ss"
+      '(import (chezscheme) (testfile-mc-2a))
+      '(define-syntax qq
+         (begin
+           (printf "expanding testfile-mc-2\n")
+           (lambda (x)
+             (printf "expanding qq\n")
+             #'q)))
+      '(printf "qq => ~a\n" qq))
+    (delete-file "testfile-mc-2a.so")
+    (delete-file "testfile-mc-2.so")
+    (display-string (separate-compile '(lambda (x) (parameterize ([compile-file-message #f] [compile-imported-libraries #t] [compile-compressed #f]) (maybe-compile-program x))) 'mc-2))
+    #t)
+  (begin
+    (let ([p (open-file-input/output-port "testfile-mc-2a.so" (file-options no-create no-fail no-truncate))])
+      (set-port-length! p 73)
+      (close-port p))
+    (display-string (separate-compile '(lambda (x) (parameterize ([compile-file-message #f] [compile-imported-libraries #t] [compile-compressed #f] [import-notify #t]) (maybe-compile-program x))) 'mc-2))
+    #t)
+  (begin
+    (let ([p (open-file-input/output-port "testfile-mc-2.so" (file-options no-create no-fail no-truncate))])
+      (set-port-length! p 87)
+      (close-port p))
+    (display-string (separate-compile '(lambda (x) (parameterize ([compile-file-message #f] [compile-imported-libraries #t] [compile-compressed #f] [import-notify #t]) (maybe-compile-program x))) 'mc-2))
+    #t)
  )
 
 (mat make-boot-file
@@ -892,9 +933,9 @@
     "hello 1\nhello 2\nhello 3\nhello 4\nhello 5\n")
   (equal?
     (begin
-      (unless (or (embedded?) (equal? *scheme* (format "../bin/~a/scheme" (machine-type))))
-        (errorf #f "not testing boot file based on ../boot/~a/petite.boot, since *scheme* isn't ../bin/~a/scheme"
-          (machine-type) (machine-type)))
+      (unless (or (embedded?) (equal? *scheme* (format "../bin/~a/scheme~a" (machine-type) (if (windows?) ".exe" ""))))
+        (errorf #f "not testing boot file based on ../boot/~a/petite.boot, since *scheme* isn't ../bin/~a/scheme~a"
+          (machine-type) (machine-type) (if (windows?) ".exe" "")))
       (parameterize ([optimize-level 2])
         (make-boot-file "testfile.boot" '()
           (format "../boot/~a/petite.boot" (machine-type))
@@ -3548,6 +3589,45 @@ evaluating module init
     (or (not a) (not (assq 'static (cdr a)))))
 )
 
+(mat collect-rendezvous
+  (begin
+    (define (check-working-gc collect)
+      (with-interrupts-disabled
+       (let ([p (weak-cons (gensym) #f)])
+         (collect)
+         (eq? (car p) #!bwp))))
+    (and (check-working-gc collect)
+         (check-working-gc collect-rendezvous)))
+      
+  (or (not (threaded?))
+      (let ([m (make-mutex)]
+            [c (make-condition)]
+            [done? #f])
+        (fork-thread
+         (lambda ()
+           (let loop ()
+             (mutex-acquire m)
+             (cond
+              [done?
+               (condition-signal c)
+               (mutex-release m)]
+              [else
+               (mutex-release m)
+               (loop)]))))
+        (and (check-working-gc collect-rendezvous)
+             ;; End thread:
+             (begin
+               (mutex-acquire m)
+               (set! done? #t)
+               (condition-wait c m)
+               (mutex-release m)
+               ;; Make sure the thread is really done
+               (let loop ()
+                 (unless (= 1 (#%$top-level-value '$active-threads))
+                   (loop)))
+               ;; Plain `collect` should work again:
+               (check-working-gc collect)))))
+  )
 
 ;;; section 7.6:
 
